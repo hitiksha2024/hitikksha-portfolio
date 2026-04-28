@@ -1,8 +1,11 @@
 "use client";
 
-import { useRef, useState, MouseEvent } from "react";
-import { motion } from "framer-motion";
+import { useRef, MouseEvent } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import dynamic from "next/dynamic";
+
+
 
 const projects = [
   {
@@ -67,39 +70,65 @@ const projects = [
   },
 ];
 
+/* ── Performant 3D tilt card using useMotionValue (no setState re-renders) ── */
 function ProjectCard({ project }: { project: (typeof projects)[0] }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [style, setStyle] = useState({});
+
+  // Raw motion values — updated on every mousemove, no re-renders
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Springs for smooth follow
+  const springX = useSpring(mouseX, { stiffness: 200, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 200, damping: 20 });
+
+  // Transform normalized values into rotations
+  const rotateX = useTransform(springY, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
+
+  // Shine overlay position — follows cursor
+  const shineX = useTransform(springX, [-0.5, 0.5], [0, 100]);
+  const shineY = useTransform(springY, [-0.5, 0.5], [0, 100]);
 
   const onMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const { left, top, width, height } = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - left) / width - 0.5;
-    const y = (e.clientY - top) / height - 0.5;
-    setStyle({
-      transform: `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale3d(1.02,1.02,1.02)`,
-      transition: "transform 0.1s ease-out",
-    });
+    mouseX.set((e.clientX - left) / width - 0.5);
+    mouseY.set((e.clientY - top) / height - 0.5);
   };
 
   const onMouseLeave = () => {
-    setStyle({
-      transform: "perspective(900px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)",
-      transition: "transform 0.5s ease",
-    });
+    mouseX.set(0);
+    mouseY.set(0);
   };
 
   return (
-    <div
+    <motion.div
       ref={cardRef}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      style={style}
-      className="h-full"
+      className="h-full perspective"
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
     >
       <div
-        className={`card-shine h-full glass rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors duration-300 group flex flex-col`}
+        className="h-full glass rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors duration-300 group flex flex-col relative"
       >
+        {/* Dynamic shine overlay — follows cursor */}
+        <motion.div
+          className="absolute inset-0 z-[1] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: useTransform(
+              [shineX, shineY],
+              ([x, y]) =>
+                `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.08) 0%, transparent 60%)`
+            ),
+          }}
+        />
+
         {/* Header — screenshot or gradient fallback */}
         <div
           className={`h-44 relative overflow-hidden bg-gradient-to-br ${project.grad}`}
@@ -111,7 +140,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
               <img
                 src={project.image}
                 alt={`${project.title} preview`}
-                className="absolute inset-0 w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                className="absolute inset-0 w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
               />
               {/* dark overlay so text above stays readable */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
@@ -119,7 +148,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <span
-                className="text-5xl font-black opacity-10 select-none"
+                className="text-5xl font-black opacity-10 select-none group-hover:opacity-20 group-hover:scale-110 transition-all duration-500"
                 style={{ color: project.accent }}
               >
                 {project.title[0]}
@@ -137,14 +166,14 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
         </div>
 
         {/* Content */}
-        <div className="p-6 flex flex-col flex-1">
+        <div className="p-6 flex flex-col flex-1 relative z-[2]">
           <div
             className="text-xs font-mono font-semibold mb-1"
             style={{ color: project.accent }}
           >
             {project.role}
           </div>
-          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors">
+          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors duration-300">
             {project.title}
           </h3>
           <p className="text-[#64748b] text-sm leading-relaxed mb-5 flex-1 font-light">
@@ -156,7 +185,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-0.5 text-[11px] rounded-full font-medium"
+                className="px-2 py-0.5 text-[11px] rounded-full font-medium transition-all duration-300 hover:scale-105"
                 style={{ background: `${project.accent}15`, color: project.accent }}
               >
                 {tag}
@@ -173,7 +202,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
               className="flex items-center gap-2 text-sm font-medium text-[#94a3b8] hover:text-white transition-colors group/btn w-fit"
             >
               View Project
-              <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 transition-transform" />
+              <ExternalLink size={14} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
             </a>
           )}
         </div>
@@ -184,44 +213,79 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           style={{ background: `linear-gradient(90deg, transparent, ${project.accent}, transparent)` }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="section">
-      <div className="container mx-auto px-6 md:px-12 lg:px-20">
+    <section id="projects" className="section relative overflow-hidden">
+      {/* Section divider */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-5xl mx-auto h-px mb-12 origin-center"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(124,58,237,0.3), rgba(6,182,212,0.3), transparent)" }}
+      />
+
+      {/* Ambient Glows instead of 3D */}
+      <div className="absolute left-0 bottom-20 w-64 h-64 bg-violet-600/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-10px" }}
           className="text-center mb-16"
         >
-          <span className="section-label block mb-3">Build Lab</span>
-          <h2 className="section-title text-white">
+          <motion.span variants={itemVariants} className="section-label block mb-3">
+            DEPLOYMENTS
+          </motion.span>
+          <motion.h2 variants={itemVariants} className="section-title text-white">
             Things I&apos;ve <span className="text-gradient">shipped</span>
-          </h2>
-          <p className="text-[#64748b] mt-4 max-w-xl mx-auto font-light">
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-[#64748b] mt-4 max-w-xl mx-auto font-light">
             Real-world applications in production. Hover cards for an immersive 3D tilt.
-          </p>
+          </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-10px" }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {projects.map((project) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ delay: i * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              variants={itemVariants}
               className="h-full"
             >
               <ProjectCard project={project} />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

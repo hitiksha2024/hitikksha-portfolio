@@ -4,19 +4,35 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-  { label: "Universe", href: "#hero" },
-  { label: "Mind", href: "#about" },
-  { label: "Arsenal", href: "#skills" },
-  { label: "Build Lab", href: "#projects" },
-  { label: "Connect", href: "#contact" },
+  { label: "ROOT", href: "#hero" },
+  { label: "README", href: "#about" },
+  { label: "MODULES", href: "#skills" },
+  { label: "DEPLOYMENTS", href: "#projects" },
+  { label: "ENDPOINT", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("#hero");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 60);
+
+      // Determine active section based on scroll position
+      const sections = navItems.map((item) => item.href.slice(1));
+      let current = "#hero";
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 150) current = `#${id}`;
+        }
+      }
+      setActiveSection(current);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -42,24 +58,41 @@ export default function Navbar() {
             }`}
         >
           {/* Logo mark */}
-          <button
+          <motion.button
             onClick={() => handleNav("#hero")}
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
             className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-cyan-500 flex items-center justify-center text-xs font-black text-white mr-2 shrink-0"
           >
             H
-          </button>
+          </motion.button>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => handleNav(item.href)}
-                className="px-3 py-1.5 text-xs font-medium text-[#94a3b8] hover:text-white rounded-full hover:bg-white/5 transition-all duration-200"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href;
+              return (
+                <button
+                  key={item.href}
+                  onClick={() => handleNav(item.href)}
+                  className={`relative px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-300 ${
+                    isActive
+                      ? "text-white"
+                      : "text-[#94a3b8] hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  {/* Active indicator pill — animated layout shift */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute inset-0 rounded-full bg-white/10 border border-white/10"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Mobile hamburger */}
@@ -87,26 +120,44 @@ export default function Navbar() {
       {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-            className="fixed top-20 left-4 right-4 z-[99] glass-strong rounded-2xl p-4 md:hidden"
-          >
-            {navItems.map((item, i) => (
-              <motion.button
-                key={item.href}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                onClick={() => handleNav(item.href)}
-                className="w-full text-left px-4 py-3 text-sm text-[#94a3b8] hover:text-white hover:bg-white/5 rounded-xl transition-all"
-              >
-                {item.label}
-              </motion.button>
-            ))}
-          </motion.div>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[98] bg-black/40 backdrop-blur-sm md:hidden"
+              onClick={() => setMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed top-20 left-4 right-4 z-[99] glass-strong rounded-2xl p-4 md:hidden"
+            >
+              {navItems.map((item, i) => {
+                const isActive = activeSection === item.href;
+                return (
+                  <motion.button
+                    key={item.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => handleNav(item.href)}
+                    className={`w-full text-left px-4 py-3 text-sm rounded-xl transition-all ${
+                      isActive
+                        ? "text-white bg-white/10"
+                        : "text-[#94a3b8] hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    {item.label}
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
