@@ -14,6 +14,7 @@ import TechBackground from "@/components/TechBackground";
 // Client-only components
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), { ssr: false });
 const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"), { ssr: false });
+const ChatBot = dynamic(() => import("@/components/ChatBot"), { ssr: false });
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
@@ -70,6 +71,7 @@ export default function Home() {
       <CustomCursor />
       <ScrollProgress />
       <Navbar />
+      <ChatBot />
 
       <AnimatePresence>
         {!loaded && (
