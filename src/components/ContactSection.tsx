@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { Mail, Send } from "lucide-react";
-import { useState, useRef, MouseEvent } from "react";
-
+import { Mail, Send, AlertCircle } from "lucide-react";
+import { useState, useRef, MouseEvent, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 
 const LinkedinIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -76,15 +76,53 @@ const itemVariants = {
 export default function ContactSection() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Compose mailto link
-    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
-    const body = encodeURIComponent(`Hi Hitiksha,\n\n${form.message}\n\n— ${form.name}\n${form.email}`);
-    window.open(`mailto:hitiksha57@gmail.com?subject=${subject}&body=${body}`);
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setError("");
+
+    if (!form.name || !form.email || !form.message) {
+      setError("All fields are required.");
+      return;
+    }
+
+    setLoading(true);
+
+    // EmailJS implementation
+    // You should replace these with your own EmailJS IDs
+    const serviceId = "service_default"; // Replace with your Service ID
+    const templateId = "template_default"; // Replace with your Template ID
+    const publicKey = "your_public_key"; // Replace with your Public Key
+
+    const templateParams = {
+      from_name: form.name,
+      from_email: form.email,
+      to_name: "Hitiksha",
+      message: form.message,
+    };
+
+    emailjs
+      .send(serviceId, templateId, templateParams, publicKey)
+      .then(
+        () => {
+          setSent(true);
+          setForm({ name: "", email: "", message: "" });
+          setLoading(false);
+          setTimeout(() => setSent(false), 3000);
+        },
+        (err) => {
+          setLoading(false);
+          console.error("FAILED...", err);
+          // Fallback to mailto if EmailJS is not configured
+          const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
+          const body = encodeURIComponent(`Hi Hitiksha,\n\n${form.message}\n\n— ${form.name}\n${form.email}`);
+          window.open(`mailto:hitiksha57@gmail.com?subject=${subject}&body=${body}`);
+          setSent(true);
+          setTimeout(() => setSent(false), 3000);
+        }
+      );
   };
 
   return (
@@ -236,20 +274,36 @@ export default function ContactSection() {
               />
             </div>
 
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center gap-2"
+              >
+                <AlertCircle size={14} /> {error}
+              </motion.div>
+            )}
+
             <motion.button
               type="submit"
+              disabled={loading}
               whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(124,58,237,0.4)" }}
               whileTap={{ scale: 0.97 }}
-              className="btn-primary w-full justify-center relative overflow-hidden"
+              className={`btn-primary w-full justify-center relative overflow-hidden ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
             >
               <span className="relative z-10 flex items-center gap-2 justify-center">
-                {sent ? (
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </span>
+                ) : sent ? (
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    ✓ Opening your email...
+                    ✓ Message Sent!
                   </motion.span>
                 ) : (
                   <>

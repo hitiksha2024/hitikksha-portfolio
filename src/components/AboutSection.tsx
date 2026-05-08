@@ -46,7 +46,7 @@ const timeline = [
   {
     year: "Dec 2024",
     title: "Junior Software Developer",
-    desc: "After a strong 6-month internship, promoted to Junior Software Developer. Took growing ownership of backend APIs, frontend features, and end-to-end delivery.",
+    desc: "After a strong 6-month internship, promoted to Junior Software Developer at ELaunch Infotech. Took growing ownership of backend APIs, frontend features, and end-to-end delivery.",
     icon: "🚀",
   },
   {

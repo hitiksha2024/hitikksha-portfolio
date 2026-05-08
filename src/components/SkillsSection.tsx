@@ -71,9 +71,9 @@ export default function SkillsSection() {
             >
               {/* Animated corner accent */}
               <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
-              
+
               <div className="relative z-10">
-                <div 
+                <div
                   className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-4 shadow-2xl transition-transform duration-500 group-hover:scale-110"
                   style={{ background: `linear-gradient(135deg, ${skill.color}40, ${skill.color}10)`, border: `1px solid ${skill.color}40`, color: skill.color }}
                 >
@@ -81,11 +81,11 @@ export default function SkillsSection() {
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-4">{skill.name}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed font-light italic">"{skill.desc}"</p>
-                
+
                 {/* Visual Mastery Indicator */}
                 <div className="mt-8 flex items-center gap-3">
                   <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div 
+                    <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: "100%" }}
                       transition={{ duration: 1.5, delay: 0.8 }}
@@ -98,7 +98,7 @@ export default function SkillsSection() {
               </div>
 
               {/* Background Glow */}
-              <div 
+              <div
                 className="absolute -bottom-10 -left-10 w-40 h-40 opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-3xl rounded-full"
                 style={{ background: skill.color }}
               />
@@ -107,21 +107,21 @@ export default function SkillsSection() {
         </div>
 
         {/* ── SECONDARY MARQUEE: Infinite scrolling icons ── */}
-        <div 
+        <div
           className="relative py-10 overflow-hidden"
-          style={{ 
+          style={{
             maskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)'
           }}
         >
-          <motion.div 
+          <motion.div
             animate={{ x: [0, -1035] }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
             className="flex gap-4 w-fit px-4"
           >
             {marqueeRow1.map((skill, i) => (
-              <div 
-                key={`row1-${i}`} 
+              <div
+                key={`row1-${i}`}
                 className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-white/5 hover:border-white/20 transition-all duration-300"
               >
                 <div className="w-2 h-2 rounded-full" style={{ background: skill.color, boxShadow: `0 0 10px ${skill.color}` }} />
@@ -129,16 +129,16 @@ export default function SkillsSection() {
               </div>
             ))}
           </motion.div>
-          
+
           {/* Second row moving opposite */}
-          <motion.div 
+          <motion.div
             animate={{ x: [-1035, 0] }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
             className="flex gap-4 w-fit px-4 mt-4"
           >
             {marqueeRow2.map((skill, i) => (
-              <div 
-                key={`row2-${i}`} 
+              <div
+                key={`row2-${i}`}
                 className="flex items-center gap-3 px-6 py-3 rounded-2xl glass border border-white/5 hover:border-white/20 transition-all duration-300"
               >
                 <div className="w-2 h-2 rounded-full" style={{ background: skill.color, boxShadow: `0 0 10px ${skill.color}` }} />
@@ -147,7 +147,7 @@ export default function SkillsSection() {
             ))}
           </motion.div>
         </div>
-        
+
         {/* Footer info */}
         <div className="mt-20 text-center">
           <p className="text-[#475569] text-xs font-light uppercase tracking-[0.3em]">

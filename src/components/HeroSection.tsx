@@ -6,8 +6,33 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import HeroCodePanel from "./HeroCodePanel";
+
+const TypewriterText = ({ text, delay = 0, speed = 0.03 }: { text: string, delay?: number, speed?: number }) => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [start, setStart] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setStart(true), delay * 1000);
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!start) return;
+    
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayedText(text.slice(0, i + 1));
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, speed * 1000);
+
+    return () => clearInterval(interval);
+  }, [start, text, speed]);
+
+  return <>{displayedText}</>;
+};
 
 const LINES = [
   { word: "HITIKSHA", offset: 0 },
@@ -130,7 +155,10 @@ export default function HeroSection({ loaded }: { loaded?: boolean }) {
 
           <motion.div variants={fadeUp} className="mb-4">
             <span className="text-xl md:text-2xl font-light text-[#94a3b8] tracking-wide">
-              MERN Stack <span className="text-white font-medium">Developer</span>
+              <TypewriterText text="MERN Stack " delay={1.2} />
+              <span className="text-white font-medium">
+                <TypewriterText text="Developer" delay={1.5} />
+              </span>
             </span>
           </motion.div>
 
@@ -139,10 +167,26 @@ export default function HeroSection({ loaded }: { loaded?: boolean }) {
             className="max-w-lg mb-8 space-y-3"
           >
             <p className="text-lg md:text-xl font-semibold text-white/90 leading-tight">
-              Building digital experiences that <span className="text-violet-400">resonate</span> and architectures that <span className="text-cyan-400">scale</span>.
+              <TypewriterText 
+                text="Building digital experiences that " 
+                delay={2.0} 
+                speed={0.02}
+              />
+              <span className="text-violet-400">
+                <TypewriterText text="resonate" delay={2.8} speed={0.02} />
+              </span>
+              <TypewriterText text=" and architectures that " delay={3.0} speed={0.02} />
+              <span className="text-cyan-400">
+                <TypewriterText text="scale" delay={3.6} speed={0.02} />
+              </span>
+              <TypewriterText text="." delay={3.8} speed={0.02} />
             </p>
             <p className="text-[#64748b] text-sm md:text-base leading-relaxed font-light border-l border-white/10 pl-5">
-              1.5+ years shipping real-world products — from fintech platforms to real-time apps — with React, Node.js, MongoDB & a relentless attention to detail.
+              <TypewriterText 
+                text="1.5+ years shipping real-world products — from fintech platforms to real-time apps — with React, Node.js, MongoDB & a relentless attention to detail." 
+                delay={4.2}
+                speed={0.01}
+              />
             </p>
           </motion.div>
 

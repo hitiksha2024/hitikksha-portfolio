@@ -22,10 +22,10 @@ const entries = [
     role: "Junior Software Developer",
     type: "Full-time",
     highlights: [
-      "Promoted after a strong 6-month internship — took ownership of backend and frontend modules",
+      "After a strong 6-month internship, promoted to Junior Software Developer at ELaunch Infotech",
+      "Took growing ownership of backend APIs, frontend features, and end-to-end delivery",
       "Built and optimised Node.js + Express APIs integrated with React frontends",
       "Improved MongoDB query performance and worked on real-time Socket.io features",
-      "Shipped features on tight product timelines with minimal supervision",
     ],
     accent: "#06b6d4",
   },
