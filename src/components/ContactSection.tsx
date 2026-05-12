@@ -4,6 +4,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Mail, Send, AlertCircle } from "lucide-react";
 import { useState, useRef, MouseEvent, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+import Toast from "./Toast";
 
 const LinkedinIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -78,6 +79,18 @@ export default function ContactSection() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error"; visible: boolean }>({
+    message: "",
+    type: "success",
+    visible: false,
+  });
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  const focusForm = () => {
+    nameInputRef.current?.focus();
+    document.querySelector("#contact-form")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,16 +104,17 @@ export default function ContactSection() {
     setLoading(true);
 
     // EmailJS implementation
-    // You should replace these with your own EmailJS IDs
-    const serviceId = "service_default"; // Replace with your Service ID
-    const templateId = "template_default"; // Replace with your Template ID
-    const publicKey = "your_public_key"; // Replace with your Public Key
+    // These keys should be added to your .env file
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_default";
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_default";
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "your_public_key";
 
     const templateParams = {
       from_name: form.name,
       from_email: form.email,
       to_name: "Hitiksha",
       message: form.message,
+      reply_to: form.email,
     };
 
     emailjs
@@ -110,17 +124,22 @@ export default function ContactSection() {
           setSent(true);
           setForm({ name: "", email: "", message: "" });
           setLoading(false);
+          setToast({
+            message: "Message sent successfully! I'll get back to you soon.",
+            type: "success",
+            visible: true,
+          });
           setTimeout(() => setSent(false), 3000);
         },
         (err) => {
           setLoading(false);
           console.error("FAILED...", err);
-          // Fallback to mailto if EmailJS is not configured
-          const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
-          const body = encodeURIComponent(`Hi Hitiksha,\n\n${form.message}\n\n— ${form.name}\n${form.email}`);
-          window.open(`mailto:hitiksha57@gmail.com?subject=${subject}&body=${body}`);
-          setSent(true);
-          setTimeout(() => setSent(false), 3000);
+          setError("Failed to send message. Please try again.");
+          setToast({
+            message: "Something went wrong. Please try again.",
+            type: "error",
+            visible: true,
+          });
         }
       );
   };
@@ -169,18 +188,18 @@ export default function ContactSection() {
             className="space-y-6"
           >
             <motion.div variants={itemVariants}>
-              <MagneticLink
-                href="mailto:hitiksha57@gmail.com"
-                className="flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-violet-500/30 transition-all group"
+              <button
+                onClick={focusForm}
+                className="w-full flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-violet-500/30 transition-all group text-left"
               >
                 <div className="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-violet-400 group-hover:bg-violet-500/20 group-hover:scale-110 transition-all duration-300">
                   <Mail size={22} />
                 </div>
                 <div>
                   <div className="text-xs text-[#64748b] mb-0.5">Email me</div>
-                  <div className="text-sm font-medium text-white">hitiksha57@gmail.com</div>
+                  <div className="text-sm font-medium text-white">pandavhitiksha@gmail.com</div>
                 </div>
-              </MagneticLink>
+              </button>
             </motion.div>
 
             <motion.div variants={itemVariants}>
@@ -231,6 +250,7 @@ export default function ContactSection() {
 
           {/* Right: Form */}
           <motion.form
+            id="contact-form"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -242,6 +262,7 @@ export default function ContactSection() {
               <div className="relative">
                 <label className="text-xs text-[#64748b] mb-1.5 block">Name</label>
                 <input
+                  ref={nameInputRef}
                   type="text"
                   required
                   value={form.name}
@@ -328,6 +349,13 @@ export default function ContactSection() {
           © {new Date().getFullYear()} Hitiksha Pandav — Crafting digital experiences
         </p>
       </motion.div>
+
+      <Toast 
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.visible}
+        onClose={() => setToast({ ...toast, visible: false })}
+      />
     </section>
   );
 }

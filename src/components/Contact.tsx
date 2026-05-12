@@ -42,11 +42,11 @@ export default function Contact() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a 
-              href="mailto:hitiksha57@gmail.com"
+              href="mailto:pandavhitiksha@gmail.com"
               className="flex items-center gap-3 px-8 py-4 rounded-full glass hover:bg-white/10 hover:border-primary/50 transition-all group"
             >
               <Mail className="text-primary group-hover:scale-110 transition-transform" size={24} />
-              <span className="text-white font-medium">hitiksha57@gmail.com</span>
+              <span className="text-white font-medium">pandavhitiksha@gmail.com</span>
             </a>
 
             <a 
