@@ -14,13 +14,6 @@ const LinkedinIcon = () => (
   </svg>
 );
 
-const GithubIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
-  </svg>
-);
-
 /* ── Magnetic link wrapper ── */
 function MagneticLink({
   children,
@@ -289,7 +282,7 @@ export default function ContactSection() {
             {/* LinkedIn */}
             <motion.div variants={itemVariants}>
               <MagneticLink
-                href="https://www.linkedin.com/in/hitiksha-pandav"
+                href="https://www.linkedin.com/in/hitiksha-pandav-a613a529b"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all group"
@@ -302,29 +295,7 @@ export default function ContactSection() {
                     LinkedIn Profile
                   </div>
                   <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
-                    linkedin.com/in/hitiksha-pandav
-                  </div>
-                </div>
-              </MagneticLink>
-            </motion.div>
-
-            {/* GitHub */}
-            <motion.div variants={itemVariants}>
-              <MagneticLink
-                href="https://github.com/hitiksha-pandav"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-5 glass rounded-2xl border border-white/5 hover:border-pink-500/30 transition-all group"
-              >
-                <div className="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 group-hover:bg-pink-500/20 group-hover:scale-105 transition-all duration-300">
-                  <GithubIcon />
-                </div>
-                <div>
-                  <div className="text-[11px] font-mono text-[#64748b] uppercase tracking-wider mb-0.5">
-                    GitHub Codebase
-                  </div>
-                  <div className="text-sm font-semibold text-white group-hover:text-pink-300 transition-colors">
-                    github.com/hitiksha-pandav
+                    hitiksha-pandav-a613a529b
                   </div>
                 </div>
               </MagneticLink>
@@ -385,11 +356,10 @@ export default function ContactSection() {
                       type="button"
                       key={type}
                       onClick={() => setProjectType(type)}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium text-left transition-all duration-300 border cursor-pointer ${
-                        isSelected
+                      className={`px-3 py-2 text-xs rounded-xl font-medium text-left transition-all duration-300 border cursor-pointer ${isSelected
                           ? "bg-violet-600/30 border-violet-500/60 text-white shadow-[0_0_15px_rgba(124,58,237,0.25)]"
                           : "bg-white/[0.02] border-white/5 text-[#94a3b8] hover:border-white/15 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {type}
                     </button>
@@ -451,9 +421,8 @@ export default function ContactSection() {
               disabled={loading}
               whileHover={{ scale: 1.02, boxShadow: "0 0 35px rgba(124,58,237,0.4)" }}
               whileTap={{ scale: 0.98 }}
-              className={`btn-primary w-full justify-center relative overflow-hidden py-3.5 ${
-                loading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
+              className={`btn-primary w-full justify-center relative overflow-hidden py-3.5 ${loading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
             >
               <span className="relative z-10 flex items-center gap-2 justify-center font-bold text-sm">
                 {loading ? (

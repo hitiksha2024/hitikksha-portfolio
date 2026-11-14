@@ -162,14 +162,12 @@ function generateKnowledgeFallback(query: string): string {
     q.includes("email") ||
     q.includes("reach") ||
     q.includes("linkedin") ||
-    q.includes("github") ||
     q.includes("message") ||
     q.includes("call")
   ) {
     return `You can connect with Hitiksha directly through any of these channels: 📬\n\n` +
       `• **Email**: [pandavhitiksha@gmail.com](mailto:pandavhitiksha@gmail.com)\n` +
-      `• **LinkedIn**: [linkedin.com/in/hitiksha-pandav](https://linkedin.com/in/hitiksha-pandav)\n` +
-      `• **GitHub**: [github.com/hitiksha-pandav](https://github.com/hitiksha-pandav)\n\n` +
+      `• **LinkedIn**: [linkedin.com/in/hitiksha-pandav-a613a529b](https://www.linkedin.com/in/hitiksha-pandav-a613a529b)\n\n` +
       `She typically responds to project and hiring inquiries within **12 hours**!`;
   }
 

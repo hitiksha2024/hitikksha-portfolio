@@ -4,16 +4,16 @@ import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 
 const LinkedinIcon = ({ className, size }: { className?: string; size?: number }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size || 24} 
-    height={size || 24} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size || 24}
+    height={size || 24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -41,7 +41,7 @@ export default function Contact() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a 
+            <a
               href="mailto:pandavhitiksha@gmail.com"
               className="flex items-center gap-3 px-8 py-4 rounded-full glass hover:bg-white/10 hover:border-primary/50 transition-all group"
             >
@@ -49,8 +49,8 @@ export default function Contact() {
               <span className="text-white font-medium">pandavhitiksha@gmail.com</span>
             </a>
 
-            <a 
-              href="https://linkedin.com/in/hitiksha-pandav"
+            <a
+              href="https://www.linkedin.com/in/hitiksha-pandav-a613a529b"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(155,135,245,0.4)] transition-all group"
@@ -61,7 +61,7 @@ export default function Contact() {
           </div>
         </motion.div>
       </div>
-      
+
       {/* Footer Text */}
       <div className="absolute bottom-6 w-full text-center text-gray-500 text-sm font-light">
         © {new Date().getFullYear()} Hitiksha Pandav. All rights reserved.
