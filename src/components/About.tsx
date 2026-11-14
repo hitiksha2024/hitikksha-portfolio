@@ -23,9 +23,9 @@ export default function About() {
           
           <div className="space-y-6 text-gray-300 text-lg leading-relaxed font-light relative z-10">
             <p>
-              I am a passionate <strong className="text-white font-medium">Full Stack Developer</strong> with over 1.5 years 
+              I am a passionate <strong className="text-white font-medium">Full Stack Developer & Freelance Engineer</strong> with over 2+ years 
               of professional experience building real-world web applications. My journey started as an intern right after 
-              graduation and evolved into a Software Engineer role where I thrive on solving complex problems.
+              graduation and evolved into a Software Developer role where I thrive on solving complex problems.
             </p>
             <p>
               At ELaunch Solution Pvt. Ltd., I focus on creating scalable architectures, developing robust backend logic, 

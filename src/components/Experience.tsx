@@ -48,7 +48,7 @@ export default function Experience() {
             Professional <span className="text-gradient">Experience</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto font-light">
-            My journey at ELaunch Solution Pvt. Ltd. and the real-world applications I've engineered.
+            My journey at ELaunch Solution Pvt. Ltd. and the real-world applications I&apos;ve engineered.
           </p>
         </motion.div>
 

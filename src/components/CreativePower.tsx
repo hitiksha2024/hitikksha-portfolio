@@ -24,9 +24,9 @@ export default function CreativePower() {
               I believe that the best web experiences sit at the intersection of raw performance and emotional design. My creative power lies in combining structured backend architecture with fluid, interactive frontend layers.
             </p>
             <div className="glass p-6 rounded-2xl border-l-4 border-l-secondary">
-              <h3 className="text-xl font-semibold text-white mb-2">The "D-Model" Concept</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">The &ldquo;D-Model&rdquo; Concept</h3>
               <p className="text-sm text-gray-400">
-                To the right is a conceptual exploration of raw energy—a shifting, dynamic geometry that represents the constant evolution of digital ideas. It is mathematically driven WebGL, blending perfect physics with distorted optics to create something that feels "alive" without being literal.
+                To the right is a conceptual exploration of raw energy—a shifting, dynamic geometry that represents the constant evolution of digital ideas. It is mathematically driven WebGL, blending perfect physics with distorted optics to create something that feels &ldquo;alive&rdquo; without being literal.
               </p>
             </div>
           </motion.div>

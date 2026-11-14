@@ -34,7 +34,7 @@ export default function Contact() {
           className="max-w-2xl mx-auto text-center"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Let's <span className="text-gradient">Connect</span>
+            Let&apos;s <span className="text-gradient">Connect</span>
           </h2>
           <p className="text-gray-400 font-light mb-12">
             Looking to collaborate or have a position available? I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision.

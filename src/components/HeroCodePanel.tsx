@@ -26,11 +26,21 @@ const SMALL_CODE_POOL = [
   { tokens: [{ text: "});", color: "#abb2bf" }] },
 ];
 
+interface CodeToken {
+  text: string;
+  color: string;
+}
+
+interface CodeLine {
+  tokens: CodeToken[];
+  id?: number;
+}
+
 /* ═══════════════════════════════════════════
    DYNAMIC TYPEWRITER COMPONENTS
 ═══════════════════════════════════════════ */
-function DynamicCodeEditor({ pool, maxVisible = 10, startDelay = 0, fontSize = "11px" }: { pool: any[], maxVisible?: number, startDelay?: number, fontSize?: string }) {
-  const [lines, setLines] = useState<any[]>([]);
+function DynamicCodeEditor({ pool, maxVisible = 10, startDelay = 0, fontSize = "11px" }: { pool: CodeLine[], maxVisible?: number, startDelay?: number, fontSize?: string }) {
+  const [lines, setLines] = useState<CodeLine[]>([]);
   const [currentLineIdx, setCurrentLineIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
@@ -43,7 +53,7 @@ function DynamicCodeEditor({ pool, maxVisible = 10, startDelay = 0, fontSize = "
   useEffect(() => {
     if (!isStarted) return;
     const currentLine = pool[currentLineIdx % pool.length];
-    const fullText = currentLine.tokens.map((t: any) => t.text).join("");
+    const fullText = currentLine.tokens.map((t) => t.text).join("");
 
     if (charIdx < fullText.length) {
       const charTimer = setTimeout(() => setCharIdx(charIdx + 1), 10);
@@ -67,7 +77,7 @@ function DynamicCodeEditor({ pool, maxVisible = 10, startDelay = 0, fontSize = "
         <div key={line.id} className="flex items-start gap-2 h-[18px]">
           <span className="text-[10px] font-mono w-5 text-right opacity-30 select-none">{lines.length - visibleLines.length + idx + 1}</span>
           <div className="font-mono flex whitespace-pre" style={{ fontSize }}>
-            {line.tokens.map((t: any, i: number) => <span key={i} style={{ color: t.color }}>{t.text}</span>)}
+            {line.tokens.map((t, i: number) => <span key={i} style={{ color: t.color }}>{t.text}</span>)}
           </div>
         </div>
       ))}
@@ -82,19 +92,25 @@ function DynamicCodeEditor({ pool, maxVisible = 10, startDelay = 0, fontSize = "
   );
 }
 
-function TypewritingChars({ tokens, charIdx }: { tokens: any[], charIdx: number }) {
-  let count = 0;
-  return (
-    <>
-      {tokens.map((t, i) => {
-        const start = count;
-        count += t.text.length;
-        if (start >= charIdx) return null;
-        const visibleLen = Math.min(charIdx - start, t.text.length);
-        return <span key={i} style={{ color: t.color }}>{t.text.slice(0, visibleLen)}</span>;
-      })}
-    </>
-  );
+function TypewritingChars({ tokens, charIdx }: { tokens: CodeToken[], charIdx: number }) {
+  let accumulated = 0;
+  const elements = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const t = tokens[i];
+    const start = accumulated;
+    accumulated += t.text.length;
+    if (start < charIdx) {
+      const visibleLen = Math.min(charIdx - start, t.text.length);
+      elements.push(
+        <span key={i} style={{ color: t.color }}>
+          {t.text.slice(0, visibleLen)}
+        </span>
+      );
+    }
+  }
+
+  return <>{elements}</>;
 }
 
 /* ═══════════════════════════════════════════

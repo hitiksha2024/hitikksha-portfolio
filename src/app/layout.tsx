@@ -10,13 +10,22 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Hitiksha Pandav | MERN Stack Developer",
+  title: "Hitiksha Pandav | Full Stack Developer & Freelance Engineer",
   description:
-    "Portfolio of Hitiksha Pandav — MERN Stack Developer building scalable, real-world web applications with clean UI and smooth UX. 1.5+ years experience.",
-  keywords: ["MERN Stack", "React", "Node.js", "MongoDB", "Developer", "Portfolio"],
+    "Portfolio of Hitiksha Pandav — Full Stack & MERN Developer building scalable, production-grade web applications. 2+ years experience. Open for full-time roles & freelance projects.",
+  keywords: [
+    "MERN Stack Developer",
+    "Full Stack Developer",
+    "React Developer",
+    "Node.js Developer",
+    "Freelance Web Developer",
+    "MVP Development",
+    "MongoDB",
+    "Software Engineer Portfolio",
+  ],
   openGraph: {
-    title: "Hitiksha Pandav | MERN Stack Developer",
-    description: "Building scalable web applications with modern tech stacks.",
+    title: "Hitiksha Pandav | Full Stack Developer & Freelance Engineer",
+    description: "Building production-grade web applications, scalable APIs & rapid MVPs. 2+ years experience.",
     type: "website",
   },
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Code2, Globe, Rocket } from "lucide-react";
+import { ArrowDown, Code2, Rocket } from "lucide-react";
 
 export default function Hero() {
   return (

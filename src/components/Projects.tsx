@@ -39,7 +39,7 @@ export default function Projects() {
             Project <span className="text-gradient">Showcase</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto font-light">
-            Highlighting premium applications I've built with a focus on polished UI and scalable backends.
+            Highlighting premium applications I&apos;ve built with a focus on polished UI and scalable backends.
           </p>
         </motion.div>
 

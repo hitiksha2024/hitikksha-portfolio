@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useMemo, useEffect, useCallback } from "react";
 import * as THREE from "three";
 
@@ -388,9 +388,16 @@ function GlowDots() {
       new THREE.Color("#a78bfa"),
     ];
     for (let i = 0; i < count; i++) {
-      positions[i*3]   = (Math.random()-0.5)*8;
-      positions[i*3+1] = (Math.random()-0.5)*5;
-      positions[i*3+2] = (Math.random()-0.5)*3-1;
+      const s1 = Math.sin(i * 12.9898) * 43758.5453;
+      const r1 = s1 - Math.floor(s1);
+      const s2 = Math.sin((i + 1) * 78.233) * 43758.5453;
+      const r2 = s2 - Math.floor(s2);
+      const s3 = Math.sin((i + 2) * 45.164) * 43758.5453;
+      const r3 = s3 - Math.floor(s3);
+
+      positions[i*3]   = (r1 - 0.5) * 8;
+      positions[i*3+1] = (r2 - 0.5) * 5;
+      positions[i*3+2] = (r3 - 0.5) * 3 - 1;
       const col = palette[i % palette.length];
       colors[i*3] = col.r; colors[i*3+1] = col.g; colors[i*3+2] = col.b;
     }
@@ -422,20 +429,19 @@ function GlowDots() {
    CAMERA RIG
 ══════════════════════════ */
 function CameraRig() {
-  const { camera } = useThree();
   const clock = useRef(0);
   const smooth = useRef({ x: 0, y: 0 });
-  useFrame((_s, delta) => {
+  useFrame((state, delta) => {
     clock.current += delta;
     const t = clock.current;
     smooth.current.x += (ptr.x - smooth.current.x) * 0.04;
     smooth.current.y += (ptr.y - smooth.current.y) * 0.04;
     const tx = Math.sin(t*0.11)*0.2 + smooth.current.x * 0.35;
     const ty = Math.cos(t*0.09)*0.14 + smooth.current.y * 0.25;
-    camera.position.x += (tx - camera.position.x) * 0.04;
-    camera.position.y += (ty - camera.position.y) * 0.04;
-    camera.position.z = 5.0 + Math.sin(t*0.18)*0.12;
-    camera.lookAt(0, 0, 0);
+    state.camera.position.x += (tx - state.camera.position.x) * 0.04;
+    state.camera.position.y += (ty - state.camera.position.y) * 0.04;
+    state.camera.position.z = 5.0 + Math.sin(t*0.18)*0.12;
+    state.camera.lookAt(0, 0, 0);
   });
   return null;
 }

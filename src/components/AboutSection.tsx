@@ -40,7 +40,7 @@ const timeline = [
   {
     year: "June 2024",
     title: "Graduated & Joined as Intern",
-    desc: "Completed BCA and joined ELaunch Infotech immediately in June 2024. Hit the ground running — contributing to real production code from week one.",
+    desc: "Completed BCA from Sutex Bank of Computer Application & Science and joined ELaunch Infotech immediately. Hit the ground running — contributing to real production code from week one.",
     icon: "🎓",
   },
   {
@@ -51,8 +51,8 @@ const timeline = [
   },
   {
     year: "2025 — Present",
-    title: "Software Developer",
-    desc: "Progressed to Software Developer at ELaunch Infotech. Owning end-to-end delivery of production-grade features — from architecture decisions to deployment — trusted with more responsibility at every sprint.",
+    title: "Software Developer & Freelance Engineer",
+    desc: "Leading full-stack feature delivery at ELaunch Infotech while building and shipping freelance client projects. Owning architecture decisions, database scalability, and end-to-end deployment.",
     icon: "⚡",
   },
 ];
@@ -102,17 +102,17 @@ export default function AboutSection() {
             </motion.h2>
 
             <motion.p variants={fadeUp} className="text-[#94a3b8] text-lg leading-relaxed mb-6 font-light">
-              I&apos;m a Full Stack Developer who believes in a{" "}
+              I&apos;m a Full Stack Developer & Freelance Engineer who believes in a{" "}
               <strong className="text-white font-medium">clean code mindset</strong> —
               writing systems that are readable, maintainable, and scalable from day one.
             </motion.p>
 
             <motion.p variants={fadeUp} className="text-[#64748b] text-base leading-relaxed font-light">
-              Fresh out of college in 2024, I joined{" "}
+              Graduating with a BCA in 2024, I joined{" "}
               <span className="text-violet-300 font-medium">ELaunch Infotech</span>{" "}
-              and haven&apos;t looked back. From intern to Junior Developer to Software
-              Developer in under two years — every step driven by real projects, real
-              deadlines, and real users depending on what I ship.
+              and haven&apos;t looked back. With 2+ years of hands-on industry experience — progressing
+              from intern to Junior Developer to Software Developer — I also partner with startup founders
+              and businesses for high-impact freelance development.
             </motion.p>
 
             {/* Trait pills */}
@@ -123,7 +123,14 @@ export default function AboutSection() {
               viewport={{ once: true, margin: "-10px" }}
               className="flex flex-wrap gap-2 mt-8"
             >
-              {["Problem Solver", "Clean Code Advocate", "API Architect", "Performance Focused", "Team Player"].map((trait) => (
+              {[
+                "Problem Solver",
+                "Clean Code Advocate",
+                "Full-Stack MVP Builder",
+                "API Architect",
+                "Fast Turnaround",
+                "Direct Communication",
+              ].map((trait) => (
                 <motion.span
                   key={trait}
                   variants={pillVariants}

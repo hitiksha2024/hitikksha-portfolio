@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const navItems = [
   { label: "ROOT", href: "#hero" },
   { label: "README", href: "#about" },
+  { label: "SERVICES", href: "#services" },
   { label: "MODULES", href: "#skills" },
   { label: "DEPLOYMENTS", href: "#projects" },
   { label: "ENDPOINT", href: "#contact" },
@@ -93,6 +94,18 @@ export default function Navbar() {
                 </button>
               );
             })}
+
+            <div className="h-4 w-px bg-white/10 mx-1" />
+
+            <motion.button
+              onClick={() => handleNav("#contact")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="ml-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500 text-white shadow-[0_0_15px_rgba(124,58,237,0.35)] transition-all cursor-pointer"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Hire Me</span>
+            </motion.button>
           </div>
 
           {/* Mobile hamburger */}
@@ -156,6 +169,17 @@ export default function Navbar() {
                   </motion.button>
                 );
               })}
+
+              <motion.button
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                onClick={() => handleNav("#contact")}
+                className="w-full mt-3 py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold bg-gradient-to-r from-violet-600 to-cyan-600 text-white shadow-[0_0_20px_rgba(124,58,237,0.4)]"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Available for Hire & Projects</span>
+              </motion.button>
             </motion.div>
           </>
         )}

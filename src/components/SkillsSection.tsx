@@ -80,7 +80,7 @@ export default function SkillsSection() {
                   {skill.icon}
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-4">{skill.name}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed font-light italic">"{skill.desc}"</p>
+                <p className="text-slate-400 text-sm leading-relaxed font-light italic">&ldquo;{skill.desc}&rdquo;</p>
 
                 {/* Visual Mastery Indicator */}
                 <div className="mt-8 flex items-center gap-3">

@@ -18,16 +18,16 @@ interface ChatHistory {
 
 // ─── Suggestions with icons ───
 const SUGGESTIONS = [
-  { emoji: "📱", text: "What's Hitiksha's tech stack?" },
-  { emoji: "🚀", text: "Tell me about her key projects" },
-  { emoji: "💼", text: "How many years of experience does she have?" },
-  { emoji: "🤝", text: "Is she available for hire?" },
+  { emoji: "🚀", text: "What freelance services does Hitiksha offer?" },
+  { emoji: "⚡", text: "Tell me about her 2+ years of experience" },
+  { emoji: "📱", text: "What production apps has she shipped?" },
+  { emoji: "🤝", text: "How can I hire her for a project or role?" },
 ];
 
 const WELCOME_MESSAGE: Message = {
   id: "welcome",
   role: "assistant",
-  content: "Hey there! 👋 I'm Hitiksha's AI — ask me anything about her projects, skills, or experience!",
+  content: "Hey there! 👋 I'm Hitiksha's AI envoy. Ask me anything about her freelance services, 2+ years of full-stack experience, tech stack, or live production apps!",
   timestamp: new Date(),
 };
 

@@ -117,9 +117,14 @@ export default function HeroSection({ loaded }: { loaded?: boolean }) {
           animate={loaded ? "visible" : "hidden"}
           className="w-full lg:w-[55%] flex flex-col"
         >
-          <motion.div variants={fadeUp} className="flex items-center gap-3 mb-5">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
-            <span className="section-label text-[10px] text-cyan-400 tracking-[0.4em] font-bold">ESTABLISHING_HANDSHAKE // PORTFOLIO_V2.0</span>
+          <motion.div variants={fadeUp} className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass border border-emerald-500/30 bg-emerald-950/20 mb-5 w-fit">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-[11px] font-mono tracking-wider text-emerald-300 font-semibold uppercase">
+              Available for Freelance Projects & Full-Time Roles
+            </span>
           </motion.div>
 
           <div className="mb-6 select-none relative">
@@ -153,12 +158,15 @@ export default function HeroSection({ loaded }: { loaded?: boolean }) {
             </div>
           </div>
 
-          <motion.div variants={fadeUp} className="mb-4">
+          <motion.div variants={fadeUp} className="mb-4 flex flex-wrap items-center gap-2">
             <span className="text-xl md:text-2xl font-light text-[#94a3b8] tracking-wide">
-              <TypewriterText text="MERN Stack " delay={1.2} />
+              <TypewriterText text="Full Stack & " delay={1.2} />
               <span className="text-white font-medium">
-                <TypewriterText text="Developer" delay={1.5} />
+                <TypewriterText text="MERN Developer" delay={1.5} />
               </span>
+            </span>
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30 font-semibold">
+              Freelance & Full-Time
             </span>
           </motion.div>
 
@@ -183,39 +191,49 @@ export default function HeroSection({ loaded }: { loaded?: boolean }) {
             </p>
             <p className="text-[#64748b] text-sm md:text-base leading-relaxed font-light border-l border-white/10 pl-5">
               <TypewriterText 
-                text="1.5+ years shipping real-world products — from fintech platforms to real-time apps — with React, Node.js, MongoDB & a relentless attention to detail." 
+                text="2+ years shipping production-grade systems — from fintech platforms & real-time engines to rapid MVPs — with React, Next.js, Node.js & MongoDB." 
                 delay={4.2}
                 speed={0.01}
               />
             </p>
           </motion.div>
 
-          <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-8">
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-3.5 mb-8">
             <motion.button
-              whileHover={{ scale: 1.04, y: -2, boxShadow: "0 0 20px rgba(124,58,237,0.3)" }}
+              whileHover={{ scale: 1.04, y: -2, boxShadow: "0 0 25px rgba(124,58,237,0.4)" }}
               whileTap={{ scale: 0.97 }}
-              className="btn-primary text-sm md:text-base px-8 py-3.5"
-              onClick={() => document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })}
+              className="btn-primary text-sm md:text-base px-7 py-3.5"
+              onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
             >
-              Explore Deployments <span>→</span>
+              🚀 Hire for Project / Role
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.04, y: -2, background: "rgba(255,255,255,0.05)" }}
               whileTap={{ scale: 0.97 }}
-              className="btn-outline text-sm md:text-base px-8 py-3.5"
-              onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="btn-outline text-sm md:text-base px-6 py-3.5"
+              onClick={() => document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })}
             >
-              Let&apos;s Connect
+              Explore Deployments
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="text-xs md:text-sm px-4 py-3.5 text-[#94a3b8] hover:text-white transition-colors font-medium flex items-center gap-1.5"
+              onClick={() => document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              <span>Services</span>
+              <span>→</span>
             </motion.button>
           </motion.div>
 
           <motion.div
             variants={fadeUp}
-            className="flex gap-10 pt-8 border-t border-white/5"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-white/5"
           >
             {[
-              { value: "1.5+", label: "Years Exp." },
+              { value: "2+", label: "Years Exp." },
               { value: "06+", label: "Live Projects" },
+              { value: "100%", label: "Agile Delivery" },
               { value: "10+", label: "Tech Stack" },
             ].map((stat) => (
               <div key={stat.label}>

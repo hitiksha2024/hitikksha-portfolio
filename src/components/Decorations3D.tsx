@@ -131,9 +131,16 @@ function MiniParticles({ count = 40, color = "#a78bfa", radius = 2 }: {
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const r = radius * 0.5 + Math.random() * radius * 0.5;
+      const seed1 = Math.sin(i * 12.9898) * 43758.5453;
+      const rand1 = seed1 - Math.floor(seed1);
+      const seed2 = Math.sin((i + 1) * 78.233) * 43758.5453;
+      const rand2 = seed2 - Math.floor(seed2);
+      const seed3 = Math.sin((i + 2) * 45.164) * 43758.5453;
+      const rand3 = seed3 - Math.floor(seed3);
+
+      const theta = rand1 * Math.PI * 2;
+      const phi = Math.acos(2 * rand2 - 1);
+      const r = radius * 0.5 + rand3 * radius * 0.5;
       pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pos[i * 3 + 2] = r * Math.cos(phi);
